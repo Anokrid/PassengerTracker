@@ -1,5 +1,4 @@
 ﻿using PassengerTracker.Model;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace PassengerTracker.Core
@@ -9,6 +8,11 @@ namespace PassengerTracker.Core
     /// </summary>
     public class MainFormViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Контекст синхронизации с основным потоком приложения
+        /// </summary>
+        private SynchronizationContext _uiContext;
+
         #region Публичные свойства
 
         /// <summary>
@@ -19,7 +23,7 @@ namespace PassengerTracker.Core
         /// <summary>
         /// Список отображаемых пассажиров
         /// </summary>
-        public ObservableCollection<Passenger> Passengers { get; set; }
+        public List<Passenger> Passengers { get; set; }
 
         #endregion
 
@@ -36,9 +40,11 @@ namespace PassengerTracker.Core
 
         public MainFormViewModel()
         {
-            FileState = "Файл не выбран";
-            StartFileSearchCommand = new RelayCommand(OpenFileSearchWindow);
-            Passengers = new ObservableCollection<Passenger>();
+            _uiContext = SynchronizationContext.Current;
+
+            FileState = "Файл с данными не выбран";
+            StartFileSearchCommand = new RelayCommand(() => Task.Run(OpenFileSearchWindow));
+            Passengers = new List<Passenger>();
         }
 
         #endregion
@@ -48,7 +54,7 @@ namespace PassengerTracker.Core
         /// <summary>
         /// Открыть окно поиска файла
         /// </summary>
-        private void OpenFileSearchWindow()
+        private async Task OpenFileSearchWindow()
         {
             string fileName = IoC.UI.ShowOpenFileDialog();
             CheckIfIsNoFile(fileName);
@@ -58,7 +64,7 @@ namespace PassengerTracker.Core
 
             if (isFileValid)
             {
-                ParseData(fileName, format);
+                await ParseData(fileName, format);
             }
             else
             {
@@ -75,7 +81,7 @@ namespace PassengerTracker.Core
         {
             if (fileName == "")
             {
-                FileState = "Файл не выбран";
+                FileState = "Файл с данными не выбран";
                 return;
             }
         }
@@ -85,17 +91,17 @@ namespace PassengerTracker.Core
         /// </summary>
         /// <param name="fileName">Имя файла</param>
         /// <param name="format">Формат файла</param>
-        private void ParseData(string fileName, string format)
+        private async Task ParseData(string fileName, string format)
         {
             FileFormat fileFormat = FileFormatManager.GetFormat(format);
             IPassengersParser parser = FileParserFabric.GetParser(fileFormat);
-            bool isSuccess;
+            bool isSuccess = false;
             FileState = "Началась загрузка данных из файла...";
-            var passengers = parser.TryParse(fileName, out isSuccess);
+            var passengers = await Task.Run(()=> parser.TryParse(fileName, out isSuccess));
 
             if (isSuccess)
             {
-                SetData(passengers);
+                _uiContext.Send(x => SetData(passengers), null);
             }
             else
             {
@@ -103,18 +109,15 @@ namespace PassengerTracker.Core
             }
         }
 
+
         /// <summary>
         /// Обновить форму, добавив данные о пассажирах
         /// </summary>
         /// <param name="passengers"></param>
         private void SetData(List<Passenger> passengers)
         {
-            Passengers.Clear();
-            for (int i = 0; i < passengers.Count; i++)
-            {
-                Passengers.Add(passengers[i]);
-            }
-            FileState = "Данные из выбранного файла получены успешно!";
+            Passengers = passengers;
+            FileState = "Данные из выбранного файла успешно получены!";
         }
 
         #endregion

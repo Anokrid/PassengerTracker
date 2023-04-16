@@ -26,7 +26,7 @@
 
             <Border BorderThickness="0 0 0 2"
                 BorderBrush="{StaticResource LightGreyBrush}"
-                CornerRadius="6 6 0 0"
+                CornerRadius="8 8 0 0"
                 Background="{StaticResource VeryLightGrayBrush}"
                 x:Name="Header"
                 Padding="0"
@@ -70,7 +70,7 @@
 
         <!-- Основное окно -->
         <Border Grid.Row="1"
-                CornerRadius="0 0 6 6"
+                CornerRadius="0 0 8 8"
                 Margin="0 -3 0 0">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
@@ -112,12 +112,13 @@
                         x:Name="DataGridBackground"/>
 
                     <!-- Таблица с информацией о пассажирах -->
-                    <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
-                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-                          RowStyle="{DynamicResource DataGridRowStyle1}" 
-                          AutoGenerateColumns="False"
-                          ItemsSource="{Binding Passengers}"
-                          FontFamily="{StaticResource Evolventa}">
+                    <DataGrid Style="{StaticResource CustomDataGridStyle}" 
+                              CellStyle="{StaticResource CustomDataGridCellStyle}" 
+                              ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" 
+                              RowStyle="{StaticResource CustomDataGridRowStyle}" 
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding Passengers}"
+                              FontFamily="{StaticResource Evolventa}">
 
                         <DataGrid.OpacityMask>
                             <VisualBrush x:Name="TableOpacityMask" Visual="{Binding ElementName=DataGridBackground}"/>
