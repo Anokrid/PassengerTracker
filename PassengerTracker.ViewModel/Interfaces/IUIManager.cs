@@ -1,4 +1,4 @@
-﻿namespace PassengerTracker.Core
+﻿namespace PassengerTracker.ViewModel
 {
     /// <summary>
     /// Интерфейс для взаимодействия с классом, создающим всплывающие окна

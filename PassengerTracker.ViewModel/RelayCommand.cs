@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace PassengerTracker.Core
+namespace PassengerTracker.ViewModel
 {
     /// <summary>
     /// Класс команды, унаследованный от <see cref="ICommand"/>, и хранящий одно действие <see cref="Action"/>

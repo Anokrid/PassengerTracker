@@ -1,7 +1,7 @@
 ﻿using PassengerTracker.Model;
 using System.Windows.Input;
 
-namespace PassengerTracker.Core
+namespace PassengerTracker.ViewModel
 {
     /// <summary>
     /// ViewModel для основного окна приложения
@@ -9,9 +9,9 @@ namespace PassengerTracker.Core
     public class MainFormViewModel : BaseViewModel
     {
         /// <summary>
-        /// Контекст синхронизации с основным потоком приложения
+        /// Доступ к UI для взаимодействия со всплывающими окнами
         /// </summary>
-        private SynchronizationContext _uiContext;
+        private IUIManager _uiManager;
 
         #region Публичные свойства
 
@@ -38,12 +38,16 @@ namespace PassengerTracker.Core
 
         #region Конструктор
 
-        public MainFormViewModel()
+        /// <summary>
+        /// Конструктор ViewModel для основного окна приложения
+        /// </summary>
+        /// <param name="uiManager">Объект, отвечающий за взаимодействие со всплывающими окнами</param>
+        public MainFormViewModel(IUIManager uiManager)
         {
-            _uiContext = SynchronizationContext.Current;
+            _uiManager = uiManager;
 
             FileState = "Файл с данными не выбран";
-            StartFileSearchCommand = new RelayCommand(() => Task.Run(OpenFileSearchWindow));
+            StartFileSearchCommand = new RelayCommand(OpenFileSearchWindow);
             Passengers = new List<Passenger>();
         }
 
@@ -54,35 +58,21 @@ namespace PassengerTracker.Core
         /// <summary>
         /// Открыть окно поиска файла
         /// </summary>
-        private async Task OpenFileSearchWindow()
+        private void OpenFileSearchWindow()
         {
-            string fileName = IoC.UI.ShowOpenFileDialog();
-            CheckIfIsNoFile(fileName);
+            string fileName = _uiManager.ShowOpenFileDialog();
 
             string format = FileFormatManager.GetFileFormat(fileName);
             bool isFileValid = FileFormatManager.IsFileFormatValid(format);
 
             if (isFileValid)
             {
-                await ParseData(fileName, format);
+                ParseData(fileName, format);
             }
             else
             {
                 FileState = "Неподдерживаемый формат файла";
-                IoC.UI.ShowWarningMessage("Данный формат файла не поддерживается для получения информации о пассажирах", "Неверный формат файла");
-            }
-        }
-
-        /// <summary>
-        /// Проверить, а был ли выбран файл
-        /// </summary>
-        /// <param name="fileName">Имя файла на проверку</param>
-        private void CheckIfIsNoFile(string fileName)
-        {
-            if (fileName == "")
-            {
-                FileState = "Файл с данными не выбран";
-                return;
+                _uiManager.ShowWarningMessage("Данный формат файла не поддерживается для получения информации о пассажирах", "Неверный формат файла");
             }
         }
 
@@ -94,21 +84,20 @@ namespace PassengerTracker.Core
         private async Task ParseData(string fileName, string format)
         {
             FileFormat fileFormat = FileFormatManager.GetFormat(format);
-            IPassengersParser parser = FileParserFabric.GetParser(fileFormat);
+            IPassengersParser parser = FileParserFactory.GetParser(fileFormat);
             bool isSuccess = false;
             FileState = "Началась загрузка данных из файла...";
             var passengers = await Task.Run(()=> parser.TryParse(fileName, out isSuccess));
 
             if (isSuccess)
             {
-                _uiContext.Send(x => SetData(passengers), null);
+                SetData(passengers);
             }
             else
             {
                 FileState = "Выбранный файл не содержит данные, доступные для обработки";
             }
         }
-
 
         /// <summary>
         /// Обновить форму, добавив данные о пассажирах

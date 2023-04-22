@@ -1,9 +1,4 @@
 ﻿using PassengerTracker.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilesGenerator
 {
@@ -12,16 +7,29 @@ namespace FilesGenerator
     /// </summary>
     public class DataGenerator
     {
-        PassengerGenerator _maleGenerator;
-        PassengerGenerator _femaleGenerator;
-        FlightGenerator _flightGenerator;
-        Random _random;
+        /// <summary>
+        /// Генератор авиарейсов
+        /// </summary>
+        private FlightGenerator _flightGenerator;
+
+        /// <summary>
+        /// Набор генераторов пассажиров мужского и женского пола
+        /// </summary>
+        private PassengerGenerator[] _passengerGenerators;
+
+        /// <summary>
+        /// Генератор случайных чисел (для выбора индекса
+        /// </summary>
+        private Random _random;
         
         public DataGenerator()
         {
             _random = new Random();
-            _maleGenerator = new MalePassengerGenerator();
-            _femaleGenerator = new FemalePassengerGenerator();
+            _passengerGenerators = new PassengerGenerator[]
+            {
+                new MalePassengerGenerator(),
+                new FemalePassengerGenerator()
+            }; 
             _flightGenerator = new FlightGenerator();
         }
 
@@ -37,17 +45,8 @@ namespace FilesGenerator
             {
                 var flight = _flightGenerator.GetRandomFlight();
 
-                int num = _random.Next(0, 2);
-                Passenger passenger;
-                if (num == 0)
-                {
-                    passenger = _maleGenerator.GeneratePassenger(flight);
-                }
-                else
-                {
-                    passenger = _femaleGenerator.GeneratePassenger(flight);
-                }
-
+                int generatorId = _random.Next(0, 2);
+                Passenger passenger = _passengerGenerators[generatorId].GeneratePassenger(flight);
                 passengers.Add(passenger);
             }
 

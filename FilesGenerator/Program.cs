@@ -58,5 +58,5 @@ else
     Console.WriteLine("Попытка создать файл закончилась ошибкой!");
 }
 
-Console.Read();
+var end = Console.ReadKey().KeyChar;
 #endregion

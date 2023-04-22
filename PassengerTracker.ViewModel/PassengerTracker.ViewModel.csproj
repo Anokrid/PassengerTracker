@@ -7,16 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ninject" Version="3.3.6" />
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove="Enums\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PassengerTracker.Model\PassengerTracker.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

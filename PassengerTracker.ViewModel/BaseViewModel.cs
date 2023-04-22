@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
 
-namespace PassengerTracker.Core
+namespace PassengerTracker.ViewModel
 {
     /// <summary>
     /// Базовый класс для всех ViewModel

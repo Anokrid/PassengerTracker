@@ -1,9 +1,4 @@
-﻿using PassengerTracker.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PassengerTracker.ViewModel;
 using System.Windows;
 
 namespace PassengerTracker
@@ -16,8 +11,8 @@ namespace PassengerTracker
         public MainWindow()
         {
             InitializeComponent();
-            IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
-            DataContext = new MainFormViewModel();
+            IUIManager uiManager = new UIManager();
+            DataContext = new MainFormViewModel(uiManager);
         }
 
         private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

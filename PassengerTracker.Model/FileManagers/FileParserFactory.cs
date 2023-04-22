@@ -3,7 +3,7 @@
     /// <summary>
     /// Класс, создающий парсеры, подходящие под нужны формат данных
     /// </summary>
-    public static class FileParserFabric
+    public static class FileParserFactory
     {
         /// <summary>
         /// Получить парсер данных для выбранного формата файлов

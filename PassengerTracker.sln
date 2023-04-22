@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassengerTracker", "PassengerTracker\PassengerTracker.csproj", "{A8F649A2-6422-443C-9724-9ED4A4DFBEA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassengerTracker.Core", "PassengerTracker.Core\PassengerTracker.Core.csproj", "{234F3A0E-81FF-4F89-B682-961811D0F05A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassengerTracker.Model", "PassengerTracker.Model\PassengerTracker.Model.csproj", "{7B83D1CD-1122-40F9-AE0B-6F5C76D92AD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesGenerator", "FilesGenerator\FilesGenerator.csproj", "{172D0307-9F65-4BC7-8146-EB7D288E9E48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilesGenerator", "FilesGenerator\FilesGenerator.csproj", "{172D0307-9F65-4BC7-8146-EB7D288E9E48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassengerTracker.ViewModel", "PassengerTracker.ViewModel\PassengerTracker.ViewModel.csproj", "{EAFAB977-C003-4DC9-9379-2370AC2D45C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{A8F649A2-6422-443C-9724-9ED4A4DFBEA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8F649A2-6422-443C-9724-9ED4A4DFBEA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8F649A2-6422-443C-9724-9ED4A4DFBEA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{234F3A0E-81FF-4F89-B682-961811D0F05A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{234F3A0E-81FF-4F89-B682-961811D0F05A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{234F3A0E-81FF-4F89-B682-961811D0F05A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{234F3A0E-81FF-4F89-B682-961811D0F05A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B83D1CD-1122-40F9-AE0B-6F5C76D92AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B83D1CD-1122-40F9-AE0B-6F5C76D92AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B83D1CD-1122-40F9-AE0B-6F5C76D92AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{172D0307-9F65-4BC7-8146-EB7D288E9E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{172D0307-9F65-4BC7-8146-EB7D288E9E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{172D0307-9F65-4BC7-8146-EB7D288E9E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAFAB977-C003-4DC9-9379-2370AC2D45C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAFAB977-C003-4DC9-9379-2370AC2D45C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAFAB977-C003-4DC9-9379-2370AC2D45C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAFAB977-C003-4DC9-9379-2370AC2D45C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
